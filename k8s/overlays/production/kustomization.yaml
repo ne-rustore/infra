@@ -5,11 +5,25 @@ namespace: web
 
 resources:
   - ../../base
+  - ingress.yaml
 
+# Все образы используют latest тег
 images:
   - name: web-app
+    newName: web-app
+    newTag: latest
+  - name: catalog-app
+    newName: catalog-app
+    newTag: latest
+  - name: recommender-app
+    newName: recommender-app
     newTag: latest
 
+# Production реплики
 replicas:
   - name: web-app
+    count: 2
+  - name: catalog-app
+    count: 2
+  - name: recommender-app
     count: 1

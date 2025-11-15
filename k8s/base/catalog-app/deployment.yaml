@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: catalog-app
+  namespace: web
+  labels:
+    app: catalog-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: catalog-app
+  template:
+    metadata:
+      labels:
+        app: catalog-app
+    spec:
+      containers:
+        - name: catalog-app
+          image: catalog-app:latest
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 8080
+          env:
+            - name: NODE_ENV
+              value: 'production'
+            # Используем localhost для подключения к БД на хост-машине
+            - name: PG_DSN
+              value: "postgres://rustore_pg:rustore_pg@localhost:15433/rustore?sslmode=disable"
+            - name: S3_BASE_URL
+              value: "http://localhost:19000/apps-media"
+            - name: PG_PORT
+              value: "15433"
+            - name: S3_API_PORT
+              value: "19000"
+            - name: S3_CONSOLE_PORT
+              value: "19001"
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8080
+            initialDelaySeconds: 45  # Увеличиваем для инициализации БД
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8080
+            initialDelaySeconds: 30  # Увеличиваем для инициализации БД
+            periodSeconds: 5

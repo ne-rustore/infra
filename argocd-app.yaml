@@ -7,7 +7,7 @@ spec:
   project: default
   
   source:
-    repoURL: https://github.com/ne-rustore/web
+    repoURL: https://github.com/ne-rustore/infra
     targetRevision: HEAD
     path: .
     directory:

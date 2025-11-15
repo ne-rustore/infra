@@ -3,9 +3,7 @@ kind: Kustomization
 
 resources:
   - namespace.yaml
-  - deployment.yaml
-  - service.yaml
-  - ingress.yaml
-
-commonLabels:
-  app: web-app
+  - web-app/
+  - catalog-app/
+  - recommender-app/
+  # позже: auth-service/, api-service/
